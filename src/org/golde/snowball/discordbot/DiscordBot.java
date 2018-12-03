@@ -9,6 +9,7 @@ import sx.blah.discord.api.events.EventSubscriber;
 import sx.blah.discord.api.internal.json.objects.ReactionEmojiObject;
 import sx.blah.discord.handle.impl.events.ReadyEvent;
 import sx.blah.discord.handle.impl.events.guild.channel.message.MessageEvent;
+import sx.blah.discord.handle.impl.events.guild.channel.message.MessageReceivedEvent;
 import sx.blah.discord.handle.impl.events.guild.channel.message.reaction.ReactionAddEvent;
 import sx.blah.discord.handle.impl.events.guild.channel.message.reaction.ReactionRemoveEvent;
 import sx.blah.discord.handle.impl.events.guild.member.UserJoinEvent;
@@ -30,6 +31,7 @@ public class DiscordBot {
 
 	private IRole ROLE_USER;
 	private IRole ROLE_NOTIFICATIONS;
+	private IRole ROLE_CREATOR;
 	
 	private final long RR_NOTIFICATIONS = 518231942819479563L;
 
@@ -53,11 +55,22 @@ public class DiscordBot {
 		guild = client.getGuilds().get(0);
 		ROLE_USER = guild.getRoleByID(517910427452178456L);
 		ROLE_NOTIFICATIONS = guild.getRoleByID(517929226020585472L);
+		ROLE_CREATOR = guild.getRoleByID(517910294694068239L);
 	}
 
 	@EventSubscriber
-	public void chat(MessageEvent e) {
+	public void chat(MessageReceivedEvent e) {
 
+		if(e.getAuthor().hasRole(ROLE_CREATOR)) {
+			if(e.getMessage().getContent().toLowerCase().contains("%noti")) {
+				ROLE_NOTIFICATIONS.changeMentionable(true);
+				String content = e.getMessage().getContent().toLowerCase().replace("%noti", ROLE_NOTIFICATIONS.mention());
+				
+				e.getMessage().getChannel().sendMessage(content);
+				e.getMessage().delete();
+				ROLE_NOTIFICATIONS.changeMentionable(false);
+			}
+		}
 	}
 
 	@EventSubscriber
