@@ -64,7 +64,8 @@ public class DiscordBot {
 		if(e.getAuthor().hasRole(ROLE_CREATOR)) {
 			if(e.getMessage().getContent().toLowerCase().contains("%noti")) {
 				ROLE_NOTIFICATIONS.changeMentionable(true);
-				String content = e.getMessage().getContent().toLowerCase().replace("%noti", ROLE_NOTIFICATIONS.mention());
+				String content = e.getMessage().getContent().replace("%noti", ROLE_NOTIFICATIONS.mention());
+				content = content.replace("%Noti", ROLE_NOTIFICATIONS.mention());
 				
 				e.getMessage().getChannel().sendMessage(content);
 				e.getMessage().delete();
