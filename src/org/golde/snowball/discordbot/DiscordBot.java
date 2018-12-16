@@ -88,7 +88,7 @@ public class DiscordBot {
 
 		if(e.getMessageID() == RR_NOTIFICATIONS) {
 			if(reaction.getEmoji().getName().equals("IWantNotifications")) {
-				user.getOrCreatePMChannel().sendMessage("You have subscribed to notifications. If you wish to unsubscribe from recieving notifications, please remove your reaction from #info .");
+				user.getOrCreatePMChannel().sendMessage("You have subscribed to notifications. If you wish to unsubscribe from recieving notifications, please remove your reaction from #faq .");
 				List<IRole> userRoles = user.getRolesForGuild(guild);
 				userRoles.add(ROLE_NOTIFICATIONS);
 				guild.editUserRoles(user, userRoles.toArray(new IRole[] {}));
@@ -106,7 +106,7 @@ public class DiscordBot {
 		final IReaction reaction = e.getReaction();
 		if(e.getMessageID() == RR_NOTIFICATIONS) {
 			if(reaction.getEmoji().getName().equals("IWantNotifications")) {
-				user.getOrCreatePMChannel().sendMessage("You have unsubscribed to notifications. If you wish to subscribe to recieve notifications again, please add back your reaction in #info .");
+				user.getOrCreatePMChannel().sendMessage("You have unsubscribed to notifications. If you wish to subscribe to recieve notifications again, please add back your reaction in #faq .");
 				List<IRole> userRoles = user.getRolesForGuild(guild);
 				userRoles.remove(ROLE_NOTIFICATIONS);
 				guild.editUserRoles(user, userRoles.toArray(new IRole[] {}));
